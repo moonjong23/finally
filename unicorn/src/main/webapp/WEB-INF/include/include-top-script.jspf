@@ -1,0 +1,66 @@
+<%@ page pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>first</title>
+<c:set var="session" value="${userid }" />
+<script type="text/javascript">
+        $(document).ready(function(){
+         	$("#product").on("click", function(e){
+                e.preventDefault();
+                fn_openProduct();
+            }); 
+        	$("#cart").on("click", function(e){ 
+        		e.preventDefault();
+                fn_openCart($(this)); 
+            });  
+        	$("#board").on("click", function(e){
+                e.preventDefault();
+                fn_openBoard();
+            }); 
+         	$("#mypage").on("click", function(e){
+                e.preventDefault();
+                fn_openMypage();
+            }); 
+        	$("#login").on("click", function(e){
+                e.preventDefault();
+                fn_openLogin();
+            });  
+        	$("#logout").on("click", function(e){
+                e.preventDefault();
+                fn_openLogout();
+            });  
+        });
+        function fn_openProduct(){
+            var comSubmit = new ComSubmit();
+            comSubmit.setUrl("<c:url value='/views/ProductList.do' />");
+            comSubmit.submit();
+        }
+        function fn_openCart(obj){
+            var comSubmit = new ComSubmit();
+            comSubmit.setUrl("<c:url value='/views/BasketView.do' />");
+            comSubmit.addParam("user_id", $("#session").val());
+            comSubmit.submit();
+        } 
+        function fn_openBoard(){
+            var comSubmit = new ComSubmit();
+            comSubmit.setUrl("<c:url value='/views/BoardList.do' />");
+            comSubmit.submit();
+        }
+         function fn_openMypage(){
+            var comSubmit = new ComSubmit();
+            comSubmit.setUrl("<c:url value='/views/Mypage.do' />");
+            comSubmit.submit();
+        }
+        function fn_openLogin(){
+            var comSubmit = new ComSubmit();
+            comSubmit.setUrl("<c:url value='/views/Login.do' />");
+            comSubmit.submit();	
+        } 
+        function fn_openLogout(){
+            var comSubmit = new ComSubmit();
+        	alert('로그아웃');
+        	comSubmit.setUrl("<c:url value='/views/logincheck.do' />");
+            comSubmit.submit();
+        } 
+</script>

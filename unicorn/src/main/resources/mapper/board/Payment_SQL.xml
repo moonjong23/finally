@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="payment">
+     <select id="selectPaymentList"  parameterType="com.acorn.unicorn.bean.BasketBean" resultType="com.acorn.unicorn.dto.BasketDTO">
+        select user_id, wishlist.id as w_id, product_id, number, products.id as p_id, name, price, stock, img from wishlist left join products on wishlist.product_id=products.id where product_id in (${product_id}) and user_id=#{user_id}
+	</select>
+	
+	<update id="productSub" parameterType="com.acorn.unicorn.bean.BasketBean">
+		update products set stock = stock - #{stock} where id = #{product_id} 
+	</update>
+	
+	<delete id="cartEmpty" parameterType="com.acorn.unicorn.bean.BasketBean">
+		delete from wishlist where user_id = #{user_id} and product_id = #{product_id}
+	</delete>
+	
+	<insert id="insertPurchase" parameterType="com.acorn.unicorn.bean.BasketBean">
+		insert into purchases(user_id, product_id, product_cnt, price, created) values(#{user_id}, #{product_id}, #{stock}, #{price}, #{created}) 
+	</insert>
+	
+	<select id="stockConfig" resultType="com.acorn.unicorn.dto.ProductDTO">
+		<![CDATA[
+		select * from products where stock < 0  
+		]]> 
+	</select>
+
+</mapper>

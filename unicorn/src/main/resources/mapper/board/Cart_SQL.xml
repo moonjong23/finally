@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+     <insert id="insertCart" parameterType="com.acorn.unicorn.bean.CartBean">
+        insert into wishlist(user_id, product_id, number) values(#{user_id}, #{product_id}, #{number})
+	</insert>
+     
+     <select id="selectCartList"  parameterType="String" resultType="com.acorn.unicorn.dto.BasketDTO">
+        select user_id, wishlist.id as w_id, product_id, number, products.id as p_id, name, price, stock, img from wishlist left join products on wishlist.product_id=products.id where user_id=#{param1}
+	</select>
+     
+     <select id="selectPaymentList"  parameterType="com.acorn.unicorn.dto.BasketDTO" resultType="com.acorn.unicorn.dto.BasketDTO">
+        select user_id, wishlist.id as w_id, product_id, number, products.id as p_id, name, price, stock, img from wishlist left join products on wishlist.product_id=products.id where user_id=#{param1}
+	</select>
+	
+	<select id="configProduct" parameterType="com.acorn.unicorn.bean.CartBean" resultType="com.acorn.unicorn.dto.CartDTO">
+		select product_id from wishlist where product_id = #{product_id} and user_id = #{user_id}
+	</select>
+	
+	<update id="updateCart" parameterType="com.acorn.unicorn.bean.CartBean">
+		update wishlist set number = #{number} where user_id = #{user_id} and product_id = #{product_id} 
+	</update>
+	
+	<delete id="deleteCart" parameterType="com.acorn.unicorn.bean.CartBean">
+		delete from wishlist where user_id = #{user_id} and product_id = #{product_id} 
+	</delete>
+
+</mapper>
